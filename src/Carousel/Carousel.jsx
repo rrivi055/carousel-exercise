@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CarouselItem from "./CarouselItem";
 import "./Carousel.css";
 
 function Carousel({ images, intervalSeconds = 3 }) {
   const [selected, setSelected] = useState(0);
 
-function move(step) {
-  setSelected(prev => (prev + step + images.length) % images.length);
-}
+  function move(step) {
+    setSelected(prev => (prev + step + images.length) % images.length);
+  }
+
+  useEffect(() => {
+    console.log("טיימר התחיל, תמונה:", selected);
+
+    const timerId = setTimeout(() => {
+      setSelected(prev => (prev + 1) % images.length);
+    }, intervalSeconds * 1000);
+
+    return () => {
+      console.log("טיימר בוטל, תמונה:", selected);
+      clearTimeout(timerId);
+    };
+  }, [selected, intervalSeconds, images.length]);
 
   return (
     <div className="carousel">
