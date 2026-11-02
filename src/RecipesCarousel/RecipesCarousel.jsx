@@ -9,9 +9,11 @@ function RecipesCarousel() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function loadImages() {
       try {
-        const response = await fetch(RECIPES_URL);
+        const response = await fetch(RECIPES_URL, { signal: controller.signal });
 
         if (!response.ok) {
           throw new Error(`שגיאת שרת: ${response.status}`);
@@ -21,12 +23,18 @@ function RecipesCarousel() {
         setImages(data.recipes.map(recipe => recipe.image));
         setLoading(false);
       } catch (err) {
+        if (err.name === "AbortError") return;
         setError(err.message);
         setLoading(false);
       }
     }
 
     loadImages();
+
+    return () => {
+      console.log("cleanup");
+      controller.abort();
+    };
   }, []);
 
   if (loading) {
