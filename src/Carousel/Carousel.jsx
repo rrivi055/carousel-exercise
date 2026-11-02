@@ -1,10 +1,16 @@
 import CarouselItem from "./CarouselItem";
 import "./Carousel.css";
 
-function Carousel({ images, intervalSeconds }) {
+function Carousel({ images, intervalSeconds = 3 }) {
   return (
     <div className="carousel">
-      <CarouselItem src={images[0]} alt="slide 1" />
+      {images.map((src, index) => (
+        <CarouselItem
+          key={index}
+          src={src}
+          alt={`תמונה ${index + 1}`}
+        />
+      ))}
     </div>
   );
 }
