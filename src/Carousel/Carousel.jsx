@@ -5,9 +5,9 @@ import "./Carousel.css";
 function Carousel({ images, intervalSeconds = 3 }) {
   const [selected, setSelected] = useState(0);
 
-  function move(step) {
-    setSelected(prev => prev + step);
-  }
+function move(step) {
+  setSelected(prev => (prev + step + images.length) % images.length);
+}
 
   return (
     <div className="carousel">
