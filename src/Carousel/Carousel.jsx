@@ -16,6 +16,16 @@ function Carousel({ images, intervalSeconds = 3 }) {
           />
         )
       )}
+
+      <div className="carousel-dots">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            className={index === selected ? "carousel-dot active" : "carousel-dot"}
+            onClick={() => setSelected(index)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
